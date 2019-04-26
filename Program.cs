@@ -1,18 +1,9 @@
 using System;
-using System.Text.RegularExpressions;
 
 namespace WeatherOnArray
 {
     internal class Program
     {
-        enum WeatherGradation
-        {
-            Sunny,
-            Cloudy,
-            Overcast,
-            Wet,
-            Rainy
-        }
 
         public static string[] Add(string[] array, string newValue)
         {
@@ -61,84 +52,71 @@ namespace WeatherOnArray
             int minRows = Math.Min(rows, original.GetLength(0));
             int minCols = Math.Min(cols, original.GetLength(1));
             for (int i = 0; i < minRows; i++)
+            {
                 for (int j = 0; j < minCols; j++)
+                {
                     newArray[i, j] = original[i, j];
+                }
+            }
+
             return newArray;
         }
 
         private static void Main(string[] args)
         {
             string title = "Insert Year, Month, Day and Weather on 5 balls range.";
-            string[][] WeathersInYears = new string[4][];
-            WeathersInYears[0] = new string[0];
-            WeathersInYears[1] = new string[0];
-            WeathersInYears[2] = new string[0];
-            WeathersInYears[3] = new string[0];
-
-            #region INSERT Value
-            Console.WriteLine(new string('#', title.Length + 4));
-            Console.WriteLine($"# {title} #");
-            Console.WriteLine(new string('#', title.Length + 4));
-
-            Console.Write("Insert Date in format dd/MM/yyyy: ");
-            string date = Console.ReadLine();
-            DateTime dt;
-            while (!DateTime.TryParseExact(date, "dd/MM/yyyy", null, System.Globalization.DateTimeStyles.None, out dt))
-            {
-                Console.WriteLine("Invalid date, please retry");
-                date = Console.ReadLine();
-            }
-
-            Console.Write("Select the weather on a five-point scale: ");
-            foreach (string name in Enum.GetNames(typeof(WeatherGradation)))
-            {
-                Console.Write("{0} ", name);
-            }
-
-            string gradation = Console.ReadLine();
-            while (string.IsNullOrWhiteSpace(gradation) || Convert.ToInt32(gradation) > 4)
-            {
-                Console.WriteLine("\nWeather can't be empty or uncorrect! Input your lastName once more ...");
-                gradation = Console.ReadLine();
-            }
-
-            #endregion
+            string[][] WeathersInYears = BussinesLogic.ImplementArrays();
             /*
-            Add(WeathersInYears[0], dt.Year.ToString());
-            Add(WeathersInYears[1], dt.Month.ToString());
-            Add(WeathersInYears[2], dt.Day.ToString());
-            Add(WeathersInYears[3], gradation);
-            */
 
-            /*
-            NewMethod(WeathersInYears[0], dt.Year.ToString());
-            NewMethod(WeathersInYears[1], dt.Month.ToString());
-            NewMethod(WeathersInYears[2], dt.Day.ToString());
-            NewMethod(WeathersInYears[3], gradation);
-            */
- 
-            Array.Resize(ref WeathersInYears[0], WeathersInYears[0].GetLength(0) + 1);
-            WeathersInYears[0][WeathersInYears[0].GetLength(0) - 1] = dt.Year.ToString();
+          Console.WriteLine("\n\tEnter the data until you press Esc\n");
+          do
+          {
+              while (!Console.KeyAvailable)
+              {
 
-            Array.Resize(ref WeathersInYears[1], WeathersInYears[1].Length + 1);
-            WeathersInYears[1][WeathersInYears[0].Length - 1] = dt.Month.ToString();
+                  UI.BuildTitle(title);
 
-            Array.Resize(ref WeathersInYears[2], WeathersInYears[2].Length + 1);
-            WeathersInYears[2][WeathersInYears[0].Length - 1] = dt.Day.ToString();
+                  DateTime dt = BussinesLogic.SetDate();
+                  string gradation = BussinesLogic.SetWeather();
 
-            Array.Resize(ref WeathersInYears[3], WeathersInYears[3].Length + 1);
-            WeathersInYears[3][WeathersInYears[0].Length - 1] = gradation;
+                  Array.Resize(ref WeathersInYears[0], WeathersInYears[0].GetLength(0) + 1);
+                  WeathersInYears[0][WeathersInYears[0].GetLength(0) - 1] = dt.Year.ToString();
+
+                  Array.Resize(ref WeathersInYears[1], WeathersInYears[1].Length + 1);
+                  WeathersInYears[1][WeathersInYears[0].Length - 1] = dt.Month.ToString();
+
+                  Array.Resize(ref WeathersInYears[2], WeathersInYears[2].Length + 1);
+                  WeathersInYears[2][WeathersInYears[0].Length - 1] = dt.Day.ToString();
+
+                  Array.Resize(ref WeathersInYears[3], WeathersInYears[3].Length + 1);
+                  WeathersInYears[3][WeathersInYears[0].Length - 1] = gradation;
+              }
+          } while (Console.ReadKey(true).Key != ConsoleKey.Escape);
+        */
+
+            Console.WriteLine("\n\tEnter the data until you press Esc\n");
+            do
+            {
+                while (!Console.KeyAvailable)
+                {
+                    InsertInArray(title, WeathersInYears, Console.ReadKey(true).Key);
+                }
+            } while (Console.ReadKey(true).Key != ConsoleKey.Escape);
             
+           // InsertInArray(title, WeathersInYears);
+           // InsertInArray(title, WeathersInYears);
+           // InsertInArray(title, WeathersInYears);
+
 
             //for (var i = 0; i < WeathersInYears.GetLength(0); i++)
             //{
 
-         //       WeathersInYears[0][0] = dt.Year.ToString();
-         //       WeathersInYears[1][0] = dt.Month.ToString();
-         //       WeathersInYears[2][0] = dt.Day.ToString();
-         //       WeathersInYears[3][0] = gradation;
+            //       WeathersInYears[0][0] = dt.Year.ToString();
+            //       WeathersInYears[1][0] = dt.Month.ToString();
+            //       WeathersInYears[2][0] = dt.Day.ToString();
+            //       WeathersInYears[3][0] = gradation;
             //}
-         
+
             /*
             for (int i = 0; i < WeathersInYears.Length; i++)
             {
@@ -151,7 +129,7 @@ namespace WeatherOnArray
                 }
             }
             */
-            for (int i = 0; i <=0; i++)
+            for (int i = 0; i < WeathersInYears.Length; i++)
             {
                 Console.WriteLine("Год {0} Месяц {1} День {2} Погода {3}", WeathersInYears[0][i], WeathersInYears[1][i], WeathersInYears[2][i], WeathersInYears[3][i]);
             }
@@ -159,5 +137,51 @@ namespace WeatherOnArray
             Console.WriteLine("\nPress any key to continue..");
             Console.ReadKey();
         }
+
+        private static void InsertInArray(string title, string[][] WeathersInYears, ConsoleKey key)
+        {
+            if (key == ConsoleKey.Escape)
+                return;
+
+            UI.BuildTitle(title);
+
+            DateTime dt = BussinesLogic.SetDate();
+            string gradation = BussinesLogic.SetWeather();
+
+            Array.Resize(ref WeathersInYears[0], WeathersInYears[0].GetLength(0) + 1);
+            WeathersInYears[0][WeathersInYears[0].GetLength(0) - 1] = dt.Year.ToString();
+
+            Array.Resize(ref WeathersInYears[1], WeathersInYears[1].Length + 1);
+            WeathersInYears[1][WeathersInYears[0].Length - 1] = dt.Month.ToString();
+
+            Array.Resize(ref WeathersInYears[2], WeathersInYears[2].Length + 1);
+            WeathersInYears[2][WeathersInYears[0].Length - 1] = dt.Day.ToString();
+
+            Array.Resize(ref WeathersInYears[3], WeathersInYears[3].Length + 1);
+            WeathersInYears[3][WeathersInYears[0].Length - 1] = gradation;
+        }
+
+        private static void YessNo()
+        {
+            do
+            {
+                while (!Console.KeyAvailable)
+                {
+                    Insert();
+                    break;
+                }
+            } while (Console.ReadKey(true).Key != ConsoleKey.Escape);
+        }
+
+        private static void Insert()
+        {
+
+            while (!(Console.KeyAvailable && Console.ReadKey(true).Key == ConsoleKey.Escape))
+            {                
+                Console.WriteLine("You chose {0}!", "Lol");
+                Console.ReadKey();
+            }          
+        }
+
     }
 }
