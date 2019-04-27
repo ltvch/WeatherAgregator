@@ -1,18 +1,17 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace WeatherOnArray
+namespace WeatherOnArrays
 {
-    static class BussinesLogic
+    internal static class BussinesLogic
     {
         public static string[][] ImplementArrays()
         {
             string[][] WeathersInYears = new string[4][];
             for (int i = 0; i < WeathersInYears.GetLength(0); i++)
+            {
                 WeathersInYears[i] = new string[0];
+            }
+
             return WeathersInYears;
         }
 
@@ -36,16 +35,37 @@ namespace WeatherOnArray
 
         public static DateTime SetDate()
         {
-            Console.Write("Insert Date in format dd/MM/yyyy: ");
-            string date = Console.ReadLine();
-            DateTime dt;
-            while (!DateTime.TryParseExact(date, "dd/MM/yyyy", null, System.Globalization.DateTimeStyles.None, out dt))
-            {
-                Console.WriteLine("Invalid date, please retry");
-                date = Console.ReadLine();
-            }
+            DateTime dt = default(DateTime);
+      
+                Console.Write("Insert Date in format dd/MM/yyyy: ");
+                string date = Console.ReadLine();
 
+                while (!DateTime.TryParseExact(date, "dd/MM/yyyy", null, System.Globalization.DateTimeStyles.None, out dt))
+                {
+                    Console.WriteLine("Invalid date, please retry");
+                    date = Console.ReadLine();
+                }                    
             return dt;
+        }
+
+        public static void InsertInArray(string title, string[][] WeathersInYears)
+        {
+            UI.BuildTitle(title);
+
+            DateTime dt = BussinesLogic.SetDate();
+            string gradation = BussinesLogic.SetWeather();
+
+            Array.Resize(ref WeathersInYears[0], WeathersInYears[0].GetLength(0) + 1);
+            WeathersInYears[0][WeathersInYears[0].GetLength(0) - 1] = dt.Year.ToString();
+
+            Array.Resize(ref WeathersInYears[1], WeathersInYears[1].Length + 1);
+            WeathersInYears[1][WeathersInYears[0].Length - 1] = dt.Month.ToString();
+
+            Array.Resize(ref WeathersInYears[2], WeathersInYears[2].Length + 1);
+            WeathersInYears[2][WeathersInYears[0].Length - 1] = dt.Day.ToString();
+
+            Array.Resize(ref WeathersInYears[3], WeathersInYears[3].Length + 1);
+            WeathersInYears[3][WeathersInYears[0].Length - 1] = gradation;
         }
     }
 }
